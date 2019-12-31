@@ -36,3 +36,38 @@
     transform: rotate(360deg);
   }
 }
+
+.wrapper-movie{
+  position: relative;
+  text-align: center;
+}
+
+.wrapper-movie:hover .btn-reserve{
+  opacity: 1;
+  transition: 0.6s;
+}
+
+.btn-reserve{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  margin: auto;
+  width: 150px;
+  opacity: 0;
+  transition: 0.6s;
+}
+
+.img-movie{
+  object-fit: cover;
+  width: 100%;
+}
+
+.btn-radius{
+  border-radius: 35px !important;
+}
+
+.option-nabvar{
+  width: 120px;
+  margin: 0 auto;
+}
