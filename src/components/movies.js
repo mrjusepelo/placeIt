@@ -46,7 +46,7 @@ export default class Movies extends Component {
 	}
 
 	sendMovie = movie => {
-		axios.post('http://localhost:3000/movies', movie)
+		axios.post(Formatter.base_url+'movies', movie)
 		.then(response => {
 			const { movies } = this.state;
 			movies.push(response.data.movie);
@@ -69,7 +69,7 @@ export default class Movies extends Component {
 
 	getMovies(){
 		this.refreshMovies([]);
-		axios.get('http://localhost:3000/movies/by_date', {
+		axios.get(Formatter.base_url+'movies/by_date', {
 			params: {
 				start_date: Formatter.formatDate(this.state.startDate),
 				end_date: Formatter.formatDate(this.state.endDate)

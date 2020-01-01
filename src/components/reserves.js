@@ -30,7 +30,7 @@ export default class Reserves extends Component {
 
 	getReserves(){
 		this.refreshReserves([]);
-		axios.get('http://localhost:3000/reserves/by_date', {
+		axios.get(Formatter.base_url+'reserves/by_date', {
 			params: {
 				start_date: Formatter.formatDate(this.state.startDate),
 				end_date: Formatter.formatDate(this.state.endDate)

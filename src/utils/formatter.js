@@ -1,5 +1,7 @@
 class Formatter {
 
+  static base_url = "http://localhost:3000/"
+
   static formatDate(date){
     if(date === null){
       date = new Date();

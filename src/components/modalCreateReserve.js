@@ -17,7 +17,7 @@ const ModalCreateReserve = (props) => {
 	};
 
 	const sendReserve = reserve => {
-		axios.post('http://localhost:3000/reserves', {reserve: reserve})
+		axios.post(Formatter.base_url+'reserves', {reserve: reserve})
 		.then(response => {
 			props.handleClose()
 			console.log(response)
