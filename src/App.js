@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Nav } from 'react-bootstrap';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,17 +13,17 @@ class App extends Component {
     return (
       <Router>
         <div className="row bg-primary">
-          <div className="col-sm-3 min-vh-100" variant="primary">
+          <div className="col-sm-4 col-md-3 min-vh-100" variant="primary">
           <Nav defaultActiveKey="/home" className="flex-column text-white mt-5">
             <Link to={'/movies'} className="nav-link text-white text-center">
-              <h1 className="d-inline" >Place</h1>
-              <h1 className="d-inline font-weight-light" >It</h1>
+              <h1 className="d-inline italy-bold" >Place</h1>
+              <h1 className="d-inline italy-light" >It</h1>
             </Link>
             <ul className="navbar-nav">
               <li className="nav-item">
                 <div className="option-nabvar">
                   <Link to={'/reserves'} className="nav-link text-white">
-                  <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" /> Reservas
+                    <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" /> Reservas
                   </Link>
                 </div>
               </li>
@@ -39,7 +38,7 @@ class App extends Component {
           </Nav>
 
           </div>
-          <div className="col-sm-9 bg-white">
+          <div className="col-sm-8 col-md-9 bg-white">
             <div className="container mt-5 px-5">
               <Switch>
                   <Route exact path='/reserves' component={ Reserves } />

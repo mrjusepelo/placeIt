@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Formatter from '../utils/formatter';
 import EmptyResults from '../utils/emptyResults';
+import { modalMessage } from '../utils/alerts';
 
 export default class Movies extends Component {
 
@@ -51,11 +52,15 @@ export default class Movies extends Component {
 			const { movies } = this.state;
 			movies.push(response.data.movie);
 			this.setState({ movies: movies });
-			console.log(response)
+			modalMessage('Películas', response.data.message, 'success');
+			this.handleCloseMovie();
 		})
 		.catch(function (error) {
-			console.log(error);
-			alert(error.response.data.message);
+			if (error.response !== undefined && error.response.status === 422) {
+				modalMessage('Reserva', error.response.data.message, 'error');
+			}else{
+				modalMessage('Reserva', '¡Ups parece que algo ha salido mal!', 'error');
+			}
 		})
 	}
 
@@ -76,20 +81,22 @@ export default class Movies extends Component {
 			}
 		})
 		.then(response => {
-			if(response.status == 200){
+			if(response.status === 200){
 				this.refreshMovies(response.data);
 			}
-			console.log('datos===>'+response)
 		})
 		.catch(function (error) {
-			console.log(error);
+			if (error.response !== undefined && error.response.status === 404) {
+				modalMessage('Reserva', error.response.data.message, 'error');
+			}else{
+				modalMessage('Reserva', '¡Ups parece que algo ha salido mal obteniendo las películas!', 'error');
+			}
 		})
 	}
 
 
 	tabRow = (handleShow) => {
 		const { movies } = this.state;
-		console.log(movies)
 		if (movies.length > 0){
 			return movies.map(function(object, i){
 					return <MovieRow movie={object} key={i} handleShow={ handleShow } />;
@@ -103,17 +110,23 @@ export default class Movies extends Component {
 		const {show, movie_id, showMovie, startDate, endDate} = this.state;
         return (
           <div>
-						<span className="font-weight-lighter h3">Películas</span>
-						<Button variant="primary float-right btn-radius" onClick={this.handleShowMovie}>
-							<FontAwesomeIcon icon={faPlus} /> Crear nueva película
-						</Button>
+						<div className="row">
+							<div className="col-sm-6">
+								<span className="font-weight-lighter h3">Películas</span>
+							</div>
+							<div className="col-sm-6">
+								<Button variant="primary float-sm-left float-md-right btn-radius" onClick={this.handleShowMovie}>
+									<FontAwesomeIcon icon={faPlus} /> Crear nueva película
+								</Button>
+							</div>
+						</div>
 						<div className="row mt-5">
 							<div className="col-12">
 								<div className="form-group row">
 									<label className="col-sm-3">Seleccionar rango fechas:  </label>
 									<div className="col-sm-6">
 										<div className="row">
-											<div className="col-sm-6">
+											<div className="col-sm-12 col-md-6">
 												<div className="form-group">
 													<label className="btn-block">inicio: </label>
 													<DatePicker
@@ -128,7 +141,7 @@ export default class Movies extends Component {
 													/>
 												</div>
 											</div>
-											<div className="col-sm-6">
+											<div className="col-sm-12 col-md-6">
 												<div className="form-group">
 													<label className="btn-block">fin: </label>
 													<DatePicker

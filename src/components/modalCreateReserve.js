@@ -5,31 +5,35 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import Formatter from '../utils/formatter';
+import {modalMessage} from '../utils/alerts';
 
 const ModalCreateReserve = (props) => {
-	console.log('movieId=>'+props.movieId);
+	const { show, handleClose, movieId } = props;
 	const [reserveDate, setReserveDate] = useState(new Date());
 	const { handleSubmit, register, errors } = useForm();
   const onSubmit = values => {
-		const reserve = { ...values, movie_id: props.movieId, reserve_date: Formatter.formatDate(reserveDate) }
-		console.log(reserve);
+		const reserve = { ...values, movie_id: movieId, reserve_date: Formatter.formatDate(reserveDate) }
 		sendReserve(reserve);
 	};
+
 
 	const sendReserve = reserve => {
 		axios.post(Formatter.base_url+'reserves', {reserve: reserve})
 		.then(response => {
-			props.handleClose()
-			console.log(response)
+			handleClose();
+			modalMessage('Reserva', response.data.message, 'success');
 		})
 		.catch(function (error) {
-			console.log(error);
-			alert(error.response.data.message);
+			if (error.response !== undefined && error.response.status === 422) {
+				modalMessage('Reserva', error.response.data.message, 'error');
+			}else{
+				modalMessage('Reserva', '¡Ups parece que algo ha salido mal!', 'error');
+			}
 		})
 	}
 
   return (
-		<Modal show={props.show} onHide={props.handleClose}>
+		<Modal show={show} onHide={handleClose}>
 			<Modal.Body>
 			<h4>Reservar</h4>
 			<br/>
@@ -38,45 +42,63 @@ const ModalCreateReserve = (props) => {
 							<div className="row">
 								<div className="col-6">
 									<div className="form-group">
-										<label>Nombre completo:  </label>
+										<label htmlFor="reserve_name">Nombre completo:  </label>
 										<input
 											name="name"
+											id="reserve_name"
 											type="text"
 											className="form-control"
 											ref={register({
-												validate: value => value !== "admin" || "Nice try!"
+												required: 'Requerido'
 											})}
 										/>
-										{errors.name && errors.name.message}
+										{errors.name && <p className="text-danger">{errors.name.message}</p>}
 									</div>
 								</div>
 								<div className="col-6">
 									<div className="form-group">
-										<label>Celular: </label>
+										<label htmlFor="reserve_cellphone">Celular: </label>
 										<input
 											name="cellphone"
+											id="reserve_cellphone"
 											type="text"
 											className="form-control"
 											ref={register({
-												required: 'Required'
+												required: 'Requerido'
 											})}
 										/>
-										{errors.cellphone && errors.cellphone.message}
+										{errors.cellphone && <p className="text-danger">{errors.cellphone.message}</p>}
 									</div>
 								</div>
 							</div>
 							<div className="row">
 								<div className="col-6">
 									<div className="form-group">
-										<label>Silla: </label>
-										<input name="seat" type="number" min="1"  max="10" step="1" className="form-control" ref={register} />
+										<label htmlFor="reserve_seat">Silla: </label>
+										<input
+										name="seat"
+										id="reserve_seat"
+										type="number"
+										min="1" max="10" step="1"
+										className="form-control"
+										ref={register({
+												required: 'Requerido'
+											})} />
+										{errors.seat && <p className="text-danger">{errors.seat.message}</p>}
 									</div>
 								</div>
 								<div className="col-6">
 									<div className="form-group">
-										<label>Fecha: </label>
-										<DatePicker ref={register}name="reserve_date" className="form-control" selected={reserveDate}
-										onChange={date => setReserveDate(date)}  dateFormat="d, MMMM, yyyy"  />
+										<label htmlFor="reserve_reserve_date">Fecha: </label>
+										<DatePicker
+											name="reserve_date"
+											id="reserve_reserve_date"
+											className="form-control"
+											selected={reserveDate}
+											onChange={date => setReserveDate(date)}
+											dateFormat="d, MMMM, yyyy"
+											ref={register} />
+										{errors.reserve_date && <p className="text-danger">{errors.reserve_date.message}</p>}
 									</div>
 								</div>
 							</div>
@@ -84,26 +106,31 @@ const ModalCreateReserve = (props) => {
 							<div className="row">
 								<div className="col-6">
 									<div className="form-group">
-										<label>Cédula: </label>
-										<input name="number_document" type="text" className="form-control" ref={register} />
+										<label htmlFor="reserve_number_document">Cédula: </label>
+										<input name="number_document" id="reserve_number_document" type="text" className="form-control"
+										ref={register({
+											required: 'Requerido'
+										})} />
+										{errors.number_document && <p className="text-danger">{errors.number_document.message}</p>}
 									</div>
 								</div>
 								<div className="col-6">
 									<div className="form-group">
-										<label>Correo electrónico: </label>
+										<label htmlFor="reserve_email">Correo electrónico: </label>
 										<input
 											name="email"
+											id="reserve_email"
 											type="text"
 											className="form-control"
 											ref={register({
-												required: 'Required',
+												required: 'Requerido',
 												pattern: {
 													value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-													message: "invalid email address"
+													message: "dirección de correo inválida"
 												}
 											})}
 										/>
-										{errors.email && errors.email.message}
+										{errors.email && <p className="text-danger">{errors.email.message}</p>}
 									</div>
 								</div>
 							</div>

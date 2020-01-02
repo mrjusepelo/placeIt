@@ -1,3 +1,4 @@
+
 class Formatter {
 
   static base_url = "http://localhost:3000/"
@@ -30,7 +31,7 @@ class Formatter {
     new Date().getFullYear(),
     new Date().getMonth() - 1,
     new Date().getDate()
-);
+  );
 
 
 }

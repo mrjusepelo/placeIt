@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Formatter from '../utils/formatter';
 import EmptyResults from '../utils/emptyResults';
+import {modalMessage} from '../utils/alerts';
 
 export default class Reserves extends Component {
 	state = {
@@ -37,13 +38,16 @@ export default class Reserves extends Component {
 			}
 		})
 		.then(response => {
-			if(response.status == 200){
+			if(response.status === 200){
 				this.refreshReserves(response.data);
 			}
-			console.log('datos===>'+response)
 		})
 		.catch(function (error) {
-			console.log(error);
+			if (error.response !== undefined && error.response.status === 404) {
+				modalMessage('Reserva', error.response.data.message, 'error');
+			}else{
+				modalMessage('Reserva', '¡Ups parece que algo ha salido mal obteniendo las reservas!', 'error');
+			}
 		})
 	}
 
