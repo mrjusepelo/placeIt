@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import ReserveRow from './reserveRow'
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import es from 'date-fns/locale/es';
 import "react-datepicker/dist/react-datepicker.css";
 import Formatter from '../utils/formatter';
 import EmptyResults from '../utils/emptyResults';
 import {modalMessage} from '../utils/alerts';
+registerLocale('es', es)
 
 export default class Reserves extends Component {
 	state = {
@@ -76,13 +78,14 @@ export default class Reserves extends Component {
 						<div className="col-12">
 								<div className="form-group row">
 									<label className="col-sm-3">Seleccionar rango fechas:  </label>
-									<div className="col-sm-6">
+									<div className="col-sm-9">
 										<div className="row">
-											<div className="col-sm-6">
+											<div className="col-sm-12 col-md-6">
 												<div className="form-group">
 													<label className="btn-block">inicio: </label>
 													<DatePicker
 														className="form-control btn-block"
+														locale="es"
 														dateFormat="d, MMMM, yyyy"
 														selected={startDate}
 														onChange={date => this.handleSelectStartDate(date)}
@@ -92,11 +95,12 @@ export default class Reserves extends Component {
 													/>
 												</div>
 											</div>
-											<div className="col-sm-6">
+											<div className="col-sm-12 col-md-6">
 												<div className="form-group">
 													<label className="btn-block">fin: </label>
 													<DatePicker
 														className="form-control btn-block"
+														locale="es"
 														dateFormat="d, MMMM, yyyy"
 														selected={endDate}
 														onChange={date => this.handleSelectEndDate(date)}
