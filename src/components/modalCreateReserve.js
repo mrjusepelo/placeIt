@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import Modal from 'react-bootstrap/Modal'
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import es from 'date-fns/locale/es';
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import Formatter from '../utils/formatter';
 import {modalMessage} from '../utils/alerts';
+registerLocale('es', es)
 
 const ModalCreateReserve = (props) => {
 	const { show, handleClose, movieId } = props;
@@ -92,6 +94,7 @@ const ModalCreateReserve = (props) => {
 										<label htmlFor="reserve_reserve_date">Fecha: </label>
 										<DatePicker
 											name="reserve_date"
+											locale="es"
 											id="reserve_reserve_date"
 											className="form-control"
 											selected={reserveDate}

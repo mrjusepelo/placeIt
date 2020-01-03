@@ -6,11 +6,13 @@ import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import es from 'date-fns/locale/es';
 import "react-datepicker/dist/react-datepicker.css";
 import Formatter from '../utils/formatter';
 import EmptyResults from '../utils/emptyResults';
 import { modalMessage } from '../utils/alerts';
+registerLocale('es', es)
 
 export default class Movies extends Component {
 
@@ -57,9 +59,9 @@ export default class Movies extends Component {
 		})
 		.catch(function (error) {
 			if (error.response !== undefined && error.response.status === 422) {
-				modalMessage('Reserva', error.response.data.message, 'error');
+				modalMessage('Películas', error.response.data.message, 'error');
 			}else{
-				modalMessage('Reserva', '¡Ups parece que algo ha salido mal!', 'error');
+				modalMessage('Películas', '¡Ups parece que algo ha salido mal!', 'error');
 			}
 		})
 	}
@@ -87,9 +89,9 @@ export default class Movies extends Component {
 		})
 		.catch(function (error) {
 			if (error.response !== undefined && error.response.status === 404) {
-				modalMessage('Reserva', error.response.data.message, 'error');
+				modalMessage('Películas', error.response.data.message, 'error');
 			}else{
-				modalMessage('Reserva', '¡Ups parece que algo ha salido mal obteniendo las películas!', 'error');
+				modalMessage('Películas', '¡Ups parece que algo ha salido mal obteniendo las películas!', 'error');
 			}
 		})
 	}
@@ -124,13 +126,14 @@ export default class Movies extends Component {
 							<div className="col-12">
 								<div className="form-group row">
 									<label className="col-sm-3">Seleccionar rango fechas:  </label>
-									<div className="col-sm-6">
+									<div className="col-sm-9">
 										<div className="row">
 											<div className="col-sm-12 col-md-6">
 												<div className="form-group">
 													<label className="btn-block">inicio: </label>
 													<DatePicker
 														name="start_date"
+														locale="es"
 														className="form-control btn-block"
 														dateFormat="d, MMMM, yyyy"
 														selected={startDate}
@@ -146,6 +149,7 @@ export default class Movies extends Component {
 													<label className="btn-block">fin: </label>
 													<DatePicker
 														name="end_date"
+														locale="es"
 														className="form-control btn-block"
 														dateFormat="d, MMMM, yyyy"
 														selected={endDate}

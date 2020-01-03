@@ -89,3 +89,15 @@ body {
   width: 120px;
   margin: 0 auto;
 }
+
+@media (max-width: 576px) {
+  .content-sidebar{
+    min-height: 30vh !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .content-sidebar{
+    min-height: 100vh !important;
+  }
+}

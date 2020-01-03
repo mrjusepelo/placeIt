@@ -13,7 +13,7 @@ class App extends Component {
     return (
       <Router>
         <div className="row bg-primary">
-          <div className="col-sm-4 col-md-3 min-vh-100" variant="primary">
+          <div className="col-sm-4 col-md-3 content-sidebar" variant="primary">
           <Nav defaultActiveKey="/home" className="flex-column text-white mt-5">
             <Link to={'/movies'} className="nav-link text-white text-center">
               <h1 className="d-inline italy-bold" >Place</h1>
@@ -38,7 +38,7 @@ class App extends Component {
           </Nav>
 
           </div>
-          <div className="col-sm-8 col-md-9 bg-white">
+          <div className="col-sm-8 col-md-9 text-md-left text-center bg-white">
             <div className="container mt-5 px-5">
               <Switch>
                   <Route exact path='/reserves' component={ Reserves } />
